@@ -1,0 +1,1017 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Unit" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Expired_period" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="11" Nullable="false" />
+          <Property Name="Fax" Type="nvarchar" MaxLength="50" />
+          <Property Name="Mail" Type="nvarchar" MaxLength="50" />
+          <Property Name="WebSite" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Convert">
+          <Key>
+            <PropertyRef Name="ConvertID" />
+          </Key>
+          <Property Name="From_ID" Type="int" Nullable="false" />
+          <Property Name="To_ID" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="ConvertID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Convert_Categories">
+          <Key>
+            <PropertyRef Name="ConvertId" />
+            <PropertyRef Name="CategoryCode" />
+            <PropertyRef Name="Production_Date" />
+          </Key>
+          <Property Name="ConvertId" Type="int" Nullable="false" />
+          <Property Name="CategoryCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Production_Date" Type="date" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Export">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="WarehouseId" Type="int" Nullable="false" />
+          <Property Name="ClientId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Export_Categories">
+          <Key>
+            <PropertyRef Name="ExportId" />
+            <PropertyRef Name="CategoryCode" />
+            <PropertyRef Name="Production_Date" />
+          </Key>
+          <Property Name="ExportId" Type="int" Nullable="false" />
+          <Property Name="CategoryCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Production_Date" Type="date" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Import">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="WarehouseId" Type="int" Nullable="false" />
+          <Property Name="SupplierId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Import_Categories">
+          <Key>
+            <PropertyRef Name="ImportId" />
+            <PropertyRef Name="CategoryCode" />
+            <PropertyRef Name="Production_Date" />
+          </Key>
+          <Property Name="ImportId" Type="int" Nullable="false" />
+          <Property Name="CategoryCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Production_Date" Type="date" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="11" Nullable="false" />
+          <Property Name="Fax" Type="nvarchar" MaxLength="50" />
+          <Property Name="Mail" Type="nvarchar" MaxLength="50" />
+          <Property Name="WebSite" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Warehouse">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Address" Type="nvarchar" MaxLength="50" />
+          <Property Name="Responsible_Person" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Convert_Categories_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Convert_Categories" Type="Self.Convert_Categories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="Convert_Categories">
+              <PropertyRef Name="CategoryCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Convert_Categories_Convert">
+          <End Role="Convert" Type="Self.Convert" Multiplicity="1" />
+          <End Role="Convert_Categories" Type="Self.Convert_Categories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Convert">
+              <PropertyRef Name="ConvertID" />
+            </Principal>
+            <Dependent Role="Convert_Categories">
+              <PropertyRef Name="ConvertId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Convert_Warehouse">
+          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="1" />
+          <End Role="Convert" Type="Self.Convert" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouse">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Convert">
+              <PropertyRef Name="From_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Convert_Warehouse1">
+          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="1" />
+          <End Role="Convert" Type="Self.Convert" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouse">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Convert">
+              <PropertyRef Name="To_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Export_Categories_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Export_Categories" Type="Self.Export_Categories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="Export_Categories">
+              <PropertyRef Name="CategoryCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Export_Categories_Export">
+          <End Role="Export" Type="Self.Export" Multiplicity="1" />
+          <End Role="Export_Categories" Type="Self.Export_Categories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Export">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Export_Categories">
+              <PropertyRef Name="ExportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Export_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Export" Type="Self.Export" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Export">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Export_Warehouse">
+          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="1" />
+          <End Role="Export" Type="Self.Export" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouse">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Export">
+              <PropertyRef Name="WarehouseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Import_Categories_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Import_Categories" Type="Self.Import_Categories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="Import_Categories">
+              <PropertyRef Name="CategoryCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Import_Categories_Import">
+          <End Role="Import" Type="Self.Import" Multiplicity="1" />
+          <End Role="Import_Categories" Type="Self.Import_Categories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Import">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Import_Categories">
+              <PropertyRef Name="ImportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Import_Supplier">
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="1" />
+          <End Role="Import" Type="Self.Import" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Import">
+              <PropertyRef Name="SupplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Import_Warehouse">
+          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="1" />
+          <End Role="Import" Type="Self.Import" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouse">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Import">
+              <PropertyRef Name="WarehouseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="catagoriesExpiredPeroid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="period" Type="int" Mode="In" />
+        </Function>
+        <Function Name="catogoryReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="catogoryCode" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="catogoryReportWithDate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="catogoryCode" Type="nvarchar" Mode="In" />
+          <Parameter Name="startDate" Type="date" Mode="In" />
+          <Parameter Name="endDate" Type="date" Mode="In" />
+        </Function>
+        <Function Name="ReportAboutCatogoriesMovement" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="warehouse_data" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="warehouse_data_startDate_endDate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="startDate" Type="date" Mode="In" />
+          <Parameter Name="endDate" Type="date" Mode="In" />
+        </Function>
+        <Function Name="warehouse_data_with_Period" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="period" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Convert" EntityType="Self.Convert" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Convert_Categories" EntityType="Self.Convert_Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Export" EntityType="Self.Export" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Export_Categories" EntityType="Self.Export_Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Import" EntityType="Self.Import" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Import_Categories" EntityType="Self.Import_Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Warehouse" EntityType="Self.Warehouse" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Convert_Categories_Category" Association="Self.FK_Convert_Categories_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Convert_Categories" EntitySet="Convert_Categories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Convert_Categories_Convert" Association="Self.FK_Convert_Categories_Convert">
+            <End Role="Convert" EntitySet="Convert" />
+            <End Role="Convert_Categories" EntitySet="Convert_Categories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Convert_Warehouse" Association="Self.FK_Convert_Warehouse">
+            <End Role="Warehouse" EntitySet="Warehouse" />
+            <End Role="Convert" EntitySet="Convert" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Convert_Warehouse1" Association="Self.FK_Convert_Warehouse1">
+            <End Role="Warehouse" EntitySet="Warehouse" />
+            <End Role="Convert" EntitySet="Convert" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Export_Categories_Category" Association="Self.FK_Export_Categories_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Export_Categories" EntitySet="Export_Categories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Export_Categories_Export" Association="Self.FK_Export_Categories_Export">
+            <End Role="Export" EntitySet="Export" />
+            <End Role="Export_Categories" EntitySet="Export_Categories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Export_Client" Association="Self.FK_Export_Client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Export" EntitySet="Export" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Export_Warehouse" Association="Self.FK_Export_Warehouse">
+            <End Role="Warehouse" EntitySet="Warehouse" />
+            <End Role="Export" EntitySet="Export" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Import_Categories_Category" Association="Self.FK_Import_Categories_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Import_Categories" EntitySet="Import_Categories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Import_Categories_Import" Association="Self.FK_Import_Categories_Import">
+            <End Role="Import" EntitySet="Import" />
+            <End Role="Import_Categories" EntitySet="Import_Categories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Import_Supplier" Association="Self.FK_Import_Supplier">
+            <End Role="Supplier" EntitySet="Supplier" />
+            <End Role="Import" EntitySet="Import" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Import_Warehouse" Association="Self.FK_Import_Warehouse">
+            <End Role="Warehouse" EntitySet="Warehouse" />
+            <End Role="Import" EntitySet="Import" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Unit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Expired_period" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Convert_Categories" Relationship="Self.FK_Convert_Categories_Category" FromRole="Category" ToRole="Convert_Categories" />
+          <NavigationProperty Name="Export_Categories" Relationship="Self.FK_Export_Categories_Category" FromRole="Category" ToRole="Export_Categories" />
+          <NavigationProperty Name="Import_Categories" Relationship="Self.FK_Import_Categories_Category" FromRole="Category" ToRole="Import_Categories" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Fax" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Mail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WebSite" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Exports" Relationship="Self.FK_Export_Client" FromRole="Client" ToRole="Export" />
+        </EntityType>
+        <EntityType Name="Convert">
+          <Key>
+            <PropertyRef Name="ConvertID" />
+          </Key>
+          <Property Name="From_ID" Type="Int32" Nullable="false" />
+          <Property Name="To_ID" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ConvertID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Convert_Categories" Relationship="Self.FK_Convert_Categories_Convert" FromRole="Convert" ToRole="Convert_Categories" />
+          <NavigationProperty Name="Warehouse" Relationship="Self.FK_Convert_Warehouse" FromRole="Convert" ToRole="Warehouse" />
+          <NavigationProperty Name="Warehouse1" Relationship="Self.FK_Convert_Warehouse1" FromRole="Convert" ToRole="Warehouse" />
+        </EntityType>
+        <EntityType Name="Convert_Categories">
+          <Key>
+            <PropertyRef Name="ConvertId" />
+            <PropertyRef Name="CategoryCode" />
+            <PropertyRef Name="Production_Date" />
+          </Key>
+          <Property Name="ConvertId" Type="Int32" Nullable="false" />
+          <Property Name="CategoryCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Production_Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="Self.FK_Convert_Categories_Category" FromRole="Convert_Categories" ToRole="Category" />
+          <NavigationProperty Name="Convert" Relationship="Self.FK_Convert_Categories_Convert" FromRole="Convert_Categories" ToRole="Convert" />
+        </EntityType>
+        <EntityType Name="Export">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="WarehouseId" Type="Int32" Nullable="false" />
+          <Property Name="ClientId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Client" Relationship="Self.FK_Export_Client" FromRole="Export" ToRole="Client" />
+          <NavigationProperty Name="Export_Categories" Relationship="Self.FK_Export_Categories_Export" FromRole="Export" ToRole="Export_Categories" />
+          <NavigationProperty Name="Warehouse" Relationship="Self.FK_Export_Warehouse" FromRole="Export" ToRole="Warehouse" />
+        </EntityType>
+        <EntityType Name="Export_Categories">
+          <Key>
+            <PropertyRef Name="ExportId" />
+            <PropertyRef Name="CategoryCode" />
+            <PropertyRef Name="Production_Date" />
+          </Key>
+          <Property Name="ExportId" Type="Int32" Nullable="false" />
+          <Property Name="CategoryCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Production_Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="Self.FK_Export_Categories_Category" FromRole="Export_Categories" ToRole="Category" />
+          <NavigationProperty Name="Export" Relationship="Self.FK_Export_Categories_Export" FromRole="Export_Categories" ToRole="Export" />
+        </EntityType>
+        <EntityType Name="Import">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="WarehouseId" Type="Int32" Nullable="false" />
+          <Property Name="SupplierId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Import_Categories" Relationship="Self.FK_Import_Categories_Import" FromRole="Import" ToRole="Import_Categories" />
+          <NavigationProperty Name="Supplier" Relationship="Self.FK_Import_Supplier" FromRole="Import" ToRole="Supplier" />
+          <NavigationProperty Name="Warehouse" Relationship="Self.FK_Import_Warehouse" FromRole="Import" ToRole="Warehouse" />
+        </EntityType>
+        <EntityType Name="Import_Categories">
+          <Key>
+            <PropertyRef Name="ImportId" />
+            <PropertyRef Name="CategoryCode" />
+            <PropertyRef Name="Production_Date" />
+          </Key>
+          <Property Name="ImportId" Type="Int32" Nullable="false" />
+          <Property Name="CategoryCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Production_Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="Self.FK_Import_Categories_Category" FromRole="Import_Categories" ToRole="Category" />
+          <NavigationProperty Name="Import" Relationship="Self.FK_Import_Categories_Import" FromRole="Import_Categories" ToRole="Import" />
+        </EntityType>
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Fax" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Mail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WebSite" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Imports" Relationship="Self.FK_Import_Supplier" FromRole="Supplier" ToRole="Import" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Warehouse">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Responsible_Person" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Converts" Relationship="Self.FK_Convert_Warehouse" FromRole="Warehouse" ToRole="Convert" />
+          <NavigationProperty Name="Converts1" Relationship="Self.FK_Convert_Warehouse1" FromRole="Warehouse" ToRole="Convert" />
+          <NavigationProperty Name="Exports" Relationship="Self.FK_Export_Warehouse" FromRole="Warehouse" ToRole="Export" />
+          <NavigationProperty Name="Imports" Relationship="Self.FK_Import_Warehouse" FromRole="Warehouse" ToRole="Import" />
+        </EntityType>
+        <Association Name="FK_Convert_Categories_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Convert_Categories" Type="Self.Convert_Categories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="Convert_Categories">
+              <PropertyRef Name="CategoryCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Export_Categories_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Export_Categories" Type="Self.Export_Categories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="Export_Categories">
+              <PropertyRef Name="CategoryCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Import_Categories_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Import_Categories" Type="Self.Import_Categories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="Import_Categories">
+              <PropertyRef Name="CategoryCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Export_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Export" Type="Self.Export" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Export">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Convert_Categories_Convert">
+          <End Role="Convert" Type="Self.Convert" Multiplicity="1" />
+          <End Role="Convert_Categories" Type="Self.Convert_Categories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Convert">
+              <PropertyRef Name="ConvertID" />
+            </Principal>
+            <Dependent Role="Convert_Categories">
+              <PropertyRef Name="ConvertId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Convert_Warehouse">
+          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="1" />
+          <End Role="Convert" Type="Self.Convert" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouse">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Convert">
+              <PropertyRef Name="From_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Convert_Warehouse1">
+          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="1" />
+          <End Role="Convert" Type="Self.Convert" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouse">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Convert">
+              <PropertyRef Name="To_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Export_Categories_Export">
+          <End Role="Export" Type="Self.Export" Multiplicity="1" />
+          <End Role="Export_Categories" Type="Self.Export_Categories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Export">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Export_Categories">
+              <PropertyRef Name="ExportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Export_Warehouse">
+          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="1" />
+          <End Role="Export" Type="Self.Export" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouse">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Export">
+              <PropertyRef Name="WarehouseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Import_Categories_Import">
+          <End Role="Import" Type="Self.Import" Multiplicity="1" />
+          <End Role="Import_Categories" Type="Self.Import_Categories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Import">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Import_Categories">
+              <PropertyRef Name="ImportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Import_Supplier">
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="1" />
+          <End Role="Import" Type="Self.Import" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Import">
+              <PropertyRef Name="SupplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Import_Warehouse">
+          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="1" />
+          <End Role="Import" Type="Self.Import" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouse">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Import">
+              <PropertyRef Name="WarehouseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categories" EntityType="Self.Category" />
+          <EntitySet Name="Clients" EntityType="Self.Client" />
+          <EntitySet Name="Converts" EntityType="Self.Convert" />
+          <EntitySet Name="Convert_Categories" EntityType="Self.Convert_Categories" />
+          <EntitySet Name="Exports" EntityType="Self.Export" />
+          <EntitySet Name="Export_Categories" EntityType="Self.Export_Categories" />
+          <EntitySet Name="Imports" EntityType="Self.Import" />
+          <EntitySet Name="Import_Categories" EntityType="Self.Import_Categories" />
+          <EntitySet Name="Suppliers" EntityType="Self.Supplier" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Warehouses" EntityType="Self.Warehouse" />
+          <AssociationSet Name="FK_Convert_Categories_Category" Association="Self.FK_Convert_Categories_Category">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Convert_Categories" EntitySet="Convert_Categories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Export_Categories_Category" Association="Self.FK_Export_Categories_Category">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Export_Categories" EntitySet="Export_Categories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Import_Categories_Category" Association="Self.FK_Import_Categories_Category">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Import_Categories" EntitySet="Import_Categories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Export_Client" Association="Self.FK_Export_Client">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Export" EntitySet="Exports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Convert_Categories_Convert" Association="Self.FK_Convert_Categories_Convert">
+            <End Role="Convert" EntitySet="Converts" />
+            <End Role="Convert_Categories" EntitySet="Convert_Categories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Convert_Warehouse" Association="Self.FK_Convert_Warehouse">
+            <End Role="Warehouse" EntitySet="Warehouses" />
+            <End Role="Convert" EntitySet="Converts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Convert_Warehouse1" Association="Self.FK_Convert_Warehouse1">
+            <End Role="Warehouse" EntitySet="Warehouses" />
+            <End Role="Convert" EntitySet="Converts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Export_Categories_Export" Association="Self.FK_Export_Categories_Export">
+            <End Role="Export" EntitySet="Exports" />
+            <End Role="Export_Categories" EntitySet="Export_Categories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Export_Warehouse" Association="Self.FK_Export_Warehouse">
+            <End Role="Warehouse" EntitySet="Warehouses" />
+            <End Role="Export" EntitySet="Exports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Import_Categories_Import" Association="Self.FK_Import_Categories_Import">
+            <End Role="Import" EntitySet="Imports" />
+            <End Role="Import_Categories" EntitySet="Import_Categories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Import_Supplier" Association="Self.FK_Import_Supplier">
+            <End Role="Supplier" EntitySet="Suppliers" />
+            <End Role="Import" EntitySet="Imports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Import_Warehouse" Association="Self.FK_Import_Warehouse">
+            <End Role="Warehouse" EntitySet="Warehouses" />
+            <End Role="Import" EntitySet="Imports" />
+          </AssociationSet>
+          <FunctionImport Name="catagoriesExpiredPeroid" ReturnType="Collection(Model.catagoriesExpiredPeroid_Result)">
+            <Parameter Name="period" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="catogoryReport" ReturnType="Collection(Model.catogoryReport_Result)">
+            <Parameter Name="catogoryCode" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="catogoryReportWithDate" ReturnType="Collection(Model.catogoryReportWithDate_Result)">
+            <Parameter Name="catogoryCode" Mode="In" Type="String" />
+            <Parameter Name="startDate" Mode="In" Type="DateTime" />
+            <Parameter Name="endDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="ReportAboutCatogoriesMovement" ReturnType="Collection(Model.ReportAboutCatogoriesMovement_Result)">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="warehouse_data" ReturnType="Collection(Model.warehouse_data_Result)">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="warehouse_data_startDate_endDate" ReturnType="Collection(Model.warehouse_data_startDate_endDate_Result)">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="startDate" Mode="In" Type="DateTime" />
+            <Parameter Name="endDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="warehouse_data_with_Period" ReturnType="Collection(Model.warehouse_data_with_Period_Result)">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="period" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="catagoriesExpiredPeroid_Result">
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Unit" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Expired_period" Nullable="false" />
+          <Property Type="DateTime" Name="Production_Date" Nullable="false" />
+          <Property Type="Int32" Name="WarehouseId" Nullable="false" />
+          <Property Type="Int32" Name="expiredAfterMonths" Nullable="true" />
+          <Property Type="Int32" Name="Quantity" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="catogoryReport_Result">
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Unit" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Expired_period" Nullable="false" />
+          <Property Type="DateTime" Name="Production_Date" Nullable="false" />
+          <Property Type="Int32" Name="WarehouseId" Nullable="false" />
+          <Property Type="Int32" Name="Quantity" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="catogoryReportWithDate_Result">
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Unit" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Expired_period" Nullable="false" />
+          <Property Type="DateTime" Name="Production_Date" Nullable="false" />
+          <Property Type="Int32" Name="WarehouseId" Nullable="false" />
+          <Property Type="Int32" Name="Quantity" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="ReportAboutCatogoriesMovement_Result">
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Unit" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Expired_period" Nullable="false" />
+          <Property Type="DateTime" Name="Production_Date" Nullable="false" />
+          <Property Type="Int32" Name="ImportedQuantity" Nullable="false" />
+          <Property Type="Int32" Name="ExportedQuantity" Nullable="false" />
+          <Property Type="Int32" Name="ConvertedInQuantity" Nullable="false" />
+          <Property Type="Int32" Name="ConvertedOutQuantity" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="warehouse_data_Result">
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Unit" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Expired_period" Nullable="false" />
+          <Property Type="DateTime" Name="Production_Date" Nullable="false" />
+          <Property Type="Int32" Name="Quantity" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="warehouse_data_startDate_endDate_Result">
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Unit" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Expired_period" Nullable="false" />
+          <Property Type="DateTime" Name="Production_Date" Nullable="false" />
+          <Property Type="Int32" Name="Quantity" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="warehouse_data_with_Period_Result">
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Unit" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Expired_period" Nullable="false" />
+          <Property Type="DateTime" Name="Production_Date" Nullable="false" />
+          <Property Type="Int32" Name="Quantity" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="Model.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="Expired_period" ColumnName="Expired_period" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="Model.Client">
+              <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="WebSite" ColumnName="WebSite" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Converts">
+            <EntityTypeMapping TypeName="Model.Convert">
+              <MappingFragment StoreEntitySet="Convert">
+                <ScalarProperty Name="From_ID" ColumnName="From_ID" />
+                <ScalarProperty Name="To_ID" ColumnName="To_ID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ConvertID" ColumnName="ConvertID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Convert_Categories">
+            <EntityTypeMapping TypeName="Model.Convert_Categories">
+              <MappingFragment StoreEntitySet="Convert_Categories">
+                <ScalarProperty Name="ConvertId" ColumnName="ConvertId" />
+                <ScalarProperty Name="CategoryCode" ColumnName="CategoryCode" />
+                <ScalarProperty Name="Production_Date" ColumnName="Production_Date" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Exports">
+            <EntityTypeMapping TypeName="Model.Export">
+              <MappingFragment StoreEntitySet="Export">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="WarehouseId" ColumnName="WarehouseId" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Export_Categories">
+            <EntityTypeMapping TypeName="Model.Export_Categories">
+              <MappingFragment StoreEntitySet="Export_Categories">
+                <ScalarProperty Name="ExportId" ColumnName="ExportId" />
+                <ScalarProperty Name="CategoryCode" ColumnName="CategoryCode" />
+                <ScalarProperty Name="Production_Date" ColumnName="Production_Date" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Imports">
+            <EntityTypeMapping TypeName="Model.Import">
+              <MappingFragment StoreEntitySet="Import">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="WarehouseId" ColumnName="WarehouseId" />
+                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Import_Categories">
+            <EntityTypeMapping TypeName="Model.Import_Categories">
+              <MappingFragment StoreEntitySet="Import_Categories">
+                <ScalarProperty Name="ImportId" ColumnName="ImportId" />
+                <ScalarProperty Name="CategoryCode" ColumnName="CategoryCode" />
+                <ScalarProperty Name="Production_Date" ColumnName="Production_Date" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Suppliers">
+            <EntityTypeMapping TypeName="Model.Supplier">
+              <MappingFragment StoreEntitySet="Supplier">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="WebSite" ColumnName="WebSite" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="Model.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Warehouses">
+            <EntityTypeMapping TypeName="Model.Warehouse">
+              <MappingFragment StoreEntitySet="Warehouse">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Responsible_Person" ColumnName="Responsible_Person" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="catagoriesExpiredPeroid" FunctionName="Model.Store.catagoriesExpiredPeroid">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.catagoriesExpiredPeroid_Result">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="Expired_period" ColumnName="Expired_period" />
+                <ScalarProperty Name="Production_Date" ColumnName="Production_Date" />
+                <ScalarProperty Name="WarehouseId" ColumnName="WarehouseId" />
+                <ScalarProperty Name="expiredAfterMonths" ColumnName="expiredAfterMonths" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="catogoryReport" FunctionName="Model.Store.catogoryReport">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.catogoryReport_Result">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="Expired_period" ColumnName="Expired_period" />
+                <ScalarProperty Name="Production_Date" ColumnName="Production_Date" />
+                <ScalarProperty Name="WarehouseId" ColumnName="WarehouseId" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="catogoryReportWithDate" FunctionName="Model.Store.catogoryReportWithDate">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.catogoryReportWithDate_Result">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="Expired_period" ColumnName="Expired_period" />
+                <ScalarProperty Name="Production_Date" ColumnName="Production_Date" />
+                <ScalarProperty Name="WarehouseId" ColumnName="WarehouseId" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ReportAboutCatogoriesMovement" FunctionName="Model.Store.ReportAboutCatogoriesMovement">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.ReportAboutCatogoriesMovement_Result">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="Expired_period" ColumnName="Expired_period" />
+                <ScalarProperty Name="Production_Date" ColumnName="Production_Date" />
+                <ScalarProperty Name="ImportedQuantity" ColumnName="ImportedQuantity" />
+                <ScalarProperty Name="ExportedQuantity" ColumnName="ExportedQuantity" />
+                <ScalarProperty Name="ConvertedInQuantity" ColumnName="ConvertedInQuantity" />
+                <ScalarProperty Name="ConvertedOutQuantity" ColumnName="ConvertedOutQuantity" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="warehouse_data" FunctionName="Model.Store.warehouse_data">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.warehouse_data_Result">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="Expired_period" ColumnName="Expired_period" />
+                <ScalarProperty Name="Production_Date" ColumnName="Production_Date" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="warehouse_data_startDate_endDate" FunctionName="Model.Store.warehouse_data_startDate_endDate">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.warehouse_data_startDate_endDate_Result">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="Expired_period" ColumnName="Expired_period" />
+                <ScalarProperty Name="Production_Date" ColumnName="Production_Date" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="warehouse_data_with_Period" FunctionName="Model.Store.warehouse_data_with_Period">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.warehouse_data_with_Period_Result">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="Expired_period" ColumnName="Expired_period" />
+                <ScalarProperty Name="Production_Date" ColumnName="Production_Date" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
